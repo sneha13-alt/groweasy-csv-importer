@@ -84,7 +84,8 @@ function coerceRecord(obj: Record<string, unknown>): CrmRecord {
   const rec: Partial<CrmRecord> = {};
   for (const field of CRM_FIELDS) {
     const value = obj[field];
-    rec[field] = value === null || value === undefined ? "" : String(value).trim();
+    const strValue = value === null || value === undefined ? "" : String(value).trim();
+    (rec as Record<string, string>)[field] = strValue;
   }
 
   if (!(CRM_STATUS_VALUES as readonly string[]).includes(rec.crm_status || "")) {

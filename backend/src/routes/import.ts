@@ -11,7 +11,11 @@ const upload = multer({
       file.mimetype === "text/csv" ||
       file.mimetype === "application/vnd.ms-excel" ||
       file.originalname.toLowerCase().endsWith(".csv");
-    cb(okType ? null : new Error("Only .csv files are supported"), okType);
+    if (okType) {
+      cb(null, true);
+    } else {
+      cb(new Error("Only .csv files are supported"));
+    }
   },
 });
 
