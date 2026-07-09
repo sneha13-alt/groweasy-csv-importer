@@ -9,6 +9,7 @@ export interface PreviewResponse {
 }
 
 export interface CrmRecord {
+  [key: string]: string;
   created_at: string;
   name: string;
   email: string;
@@ -26,7 +27,7 @@ export interface CrmRecord {
   description: string;
 }
 
-export const CRM_FIELDS: (keyof CrmRecord)[] = [
+export const CRM_FIELDS: string[] = [
   "created_at",
   "name",
   "email",
