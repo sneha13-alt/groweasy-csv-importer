@@ -51,7 +51,10 @@ interface ChatMessage {
 async function callOllama(messages: ChatMessage[]): Promise<string> {
   const res = await fetch(`${OLLAMA_HOST}/api/chat`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "ngrok-skip-browser-warning": "true",
+    },
     body: JSON.stringify({
       model: OLLAMA_MODEL,
       messages,
@@ -63,7 +66,8 @@ async function callOllama(messages: ChatMessage[]): Promise<string> {
 
   if (!res.ok) {
     const text = await res.text().catch(() => "");
-    throw new Error(`Ollama request failed (${res.status}): ${text}`);
+    console.error(`Ollama request failed (${res.status}):`, text.slice(0, 500));
+    throw new Error(`Ollama request failed (${res.status}): ${text.slice(0, 200)}`);
   }
 
   const data = (await res.json()) as { message?: { content?: string } };
